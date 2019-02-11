@@ -29,7 +29,7 @@ func Migrate(db *gorm.DB) {
 	db.Model(&ProductColor{}).AddForeignKey("product_size_id", "product_sizes(id)", "CASCADE", "CASCADE")
 
 	// manual migrate
-	// manualMigrate(db)
+	manualMigrate(db)
 
 	// add index
 	db.Model(&Product{}).AddIndex("idx_product_name", "name")
@@ -41,7 +41,7 @@ func Migrate(db *gorm.DB) {
 }
 
 func manualMigrate(db *gorm.DB) {
-	if !db.HasTable(&ProductSize{}) {
+	/* if !db.HasTable(&ProductSize{}) {
 		db.Exec(`CREATE TABLE product_size (
 			id int(10) unsigned NOT NULL AUTO_INCREMENT,
 			created_at timestamp NULL DEFAULT NULL,
@@ -57,5 +57,24 @@ func manualMigrate(db *gorm.DB) {
 			KEY product_size_product_id_products_id_foreign (product_id),
 			CONSTRAINT product_size_product_id_products_id_foreign FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE ON UPDATE CASCADE
 		  ) ENGINE=InnoDB DEFAULT CHARSET=latin1`)
+	} */
+
+	// Scan
+	// type Result struct {
+	// 	ID       int
+	// 	Username string
+	// 	// Fullname string
+	// }
+
+	// var result Result
+	// db.Raw("SELECT id, username, fullname FROM users WHERE id = ?", 0).Scan(&result)
+	// spew.Dump(result.Username)
+
+	// insert user system if not exists
+	var count uint
+	db.Model(&User{}).Count(&count)
+	if count == 0 {
+		user := User{Username: "system", Fullname: "system"}
+		db.Create(&user)
 	}
 }
