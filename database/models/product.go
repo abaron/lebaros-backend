@@ -13,6 +13,7 @@ type Product struct {
 	Sku         string  `gorm:"size:20" sql:"not null"`
 	Name        string  `gorm:"size:128" sql:"not null"`
 	Description string  `sql:"type:text;"`
+	Uri         string  `gorm:"size:32" sql:"not null"`
 	Price       uint    `sql:"not null"`
 	Revenue     float32 `sql:"not null"`
 	Currency    string  `gorm:"size:3" sql:"not null"`
@@ -33,6 +34,7 @@ func (p Product) Serialize() common.JSON {
 		"sku":         p.Sku,
 		"name":        p.Name,
 		"description": p.Description,
+		"uri":         p.Uri,
 		"price":       p.Price,
 		"revenue":     p.Revenue,
 		"currency":    p.Currency,

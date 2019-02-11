@@ -28,6 +28,7 @@ func (u *User) Read(m common.JSON) {
 	u.Fullname = m["fullname"].(string)
 }
 
+// for migrate
 type tabler interface {
 	TableName() string
 }

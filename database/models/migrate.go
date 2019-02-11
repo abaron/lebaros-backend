@@ -33,9 +33,18 @@ func Migrate(db *gorm.DB) {
 
 	// add index
 	db.Model(&Product{}).AddIndex("idx_product_name", "name")
+	db.Model(&Product{}).AddIndex("idx_product_sku", "sku")
+	db.Model(&Sales{}).AddIndex("idx_sales_price", "price")
+	db.Model(&ProductColor{}).AddIndex("idx_product_color_color", "color")
+	db.Model(&ProductSize{}).AddIndex("idx_product_size_size", "size")
+	db.Model(&ProductStockLog{}).AddIndex("idx_product_stock_log_stock", "stock")
+	db.Model(&ProductStock{}).AddIndex("idx_product_stock_stock", "stock")
 
 	// add unique
-	db.Model(&Product{}).AddUniqueIndex("idx_product_name", "name")
+	db.Model(&User{}).AddUniqueIndex("idx_username_", "username")
+	db.Model(&Product{}).AddUniqueIndex("idx_product_name_deleted_", "name", "is_deleted")
+	db.Model(&Product{}).AddUniqueIndex("idx_product_sku_deleted_", "sku", "is_deleted")
+	db.Model(&Product{}).AddUniqueIndex("idx_product_uri_deleted_", "uri", "is_deleted")
 
 	fmt.Println("=== Auto Migration has beed processed ===")
 }
@@ -59,22 +68,27 @@ func manualMigrate(db *gorm.DB) {
 		  ) ENGINE=InnoDB DEFAULT CHARSET=latin1`)
 	} */
 
-	// Scan
-	// type Result struct {
-	// 	ID       int
-	// 	Username string
-	// 	// Fullname string
-	// }
+	var count uint
 
-	// var result Result
-	// db.Raw("SELECT id, username, fullname FROM users WHERE id = ?", 0).Scan(&result)
-	// spew.Dump(result.Username)
+	// Scan
+	type Result struct {
+		ID int
+	}
+
+	// Use scanner/valuer
+	type UserValuer struct {
+		gorm.Model
+		Result
+	}
 
 	// insert user system if not exists
-	var count uint
 	db.Model(&User{}).Count(&count)
 	if count == 0 {
+		// Gorm Insert
 		user := User{Username: "system", Fullname: "system"}
 		db.Create(&user)
+
+		// Update user system id
+		db.Exec("UPDATE users SET id=? WHERE fullname=?", 0, "system")
 	}
 }
