@@ -1,0 +1,55 @@
+version: '3'
+services:
+  # php service
+  lebarosadmin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: lebaros-backend-admin
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: admin
+      SERVICE_TAGS: dev
+    volumes:
+      - ./:/var/www/admin
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+
+  # nginx service
+  webserver:
+    image: nginx:alpine
+    container_name: lebaros-backend-webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3003:3003"
+      - "3004:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+
+  # mysql service
+  mysql:
+    container_name: lebaros-backend-mysql
+    image: mysql:5.7
+    ports:
+      - "33060:3306"
+    environment:
+      MYSQL_DATABASE: lebaros
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: lebaros
+      MYSQL_PASSWORD: lebaros
+    network_mode: bridge
+    logging:
+      driver: "none"
+
+  # redis service
+  redis:
+    container_name: lebaros-backend-redis
+    image: redis:4
+    ports:
+      - "63790:6379"
+    network_mode: bridge
+    logging:
+      driver: "none"
