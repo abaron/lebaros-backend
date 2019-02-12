@@ -4,6 +4,7 @@ import (
 	"github.com/abaron/lebaros-backend/api/v1.0/auth"
 	"github.com/abaron/lebaros-backend/api/v1.0/posts"
 	"github.com/abaron/lebaros-backend/api/v1.0/product"
+	"github.com/abaron/lebaros-backend/api/v1.0/stock"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,6 +21,7 @@ func ApplyRoutes(r *gin.RouterGroup) {
 		v1.GET("/ping", ping)
 		auth.ApplyRoutes(v1)
 		product.ApplyRoutes(v1)
+		stock.ApplyRoutes(v1)
 		posts.ApplyRoutes(v1)
 	}
 }
