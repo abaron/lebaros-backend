@@ -10,5 +10,6 @@ func ApplyRoutes(r *gin.RouterGroup) {
 	product := r.Group("/product")
 	{
 		product.POST("/import-exists", middlewares.Authorized, importExists)
+		product.GET("/stocks", middlewares.Authorized, stocks)
 	}
 }
