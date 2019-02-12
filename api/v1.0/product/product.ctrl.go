@@ -113,3 +113,40 @@ func importExists(c *gin.Context) {
 	}
 	c.JSON(200, response)
 }
+
+// Handler for display stock list
+func stocks(c *gin.Context) {
+	db := c.MustGet("db").(*gorm.DB)
+	type result struct {
+		ID    uint   `json:"id"`
+		Name  string `json:"name"`
+		Size  string `json:"size"`
+		Color string `json:"color"`
+		Sku   string `json:"sku"`
+		Stock uint   `json:"stock"`
+	}
+
+	var results []result
+	db.Table("products").Select(`
+		products.id,
+		products.name,
+		product_sizes.size,
+		product_colors.color,
+		product_stocks.sku,
+		product_stocks.stock
+	`).Joins(`
+		left join product_stocks on product_stocks.product_id = products.id
+	`).Joins(`
+		left join product_colors on product_colors.sku = product_stocks.sku
+	`).Joins(`
+		left join product_sizes on product_sizes.sku = product_stocks.sku
+	`).Scan(&results)
+
+	response := common.Response{
+		Code:     200,
+		Status:   "OK",
+		Messages: "",
+		Data:     results,
+	}
+	c.JSON(200, response)
+}
