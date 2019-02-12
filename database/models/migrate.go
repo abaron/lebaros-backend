@@ -27,24 +27,29 @@ func Migrate(db *gorm.DB) {
 	db.Model(&ProductSize{}).AddForeignKey("product_id", "products(id)", "CASCADE", "CASCADE")
 	db.Model(&ProductColor{}).AddForeignKey("product_id", "products(id)", "CASCADE", "CASCADE")
 	db.Model(&ProductColor{}).AddForeignKey("product_size_id", "product_sizes(id)", "CASCADE", "CASCADE")
+	db.Model(&ProductStock{}).AddForeignKey("product_id", "products(id)", "CASCADE", "CASCADE")
+	db.Model(&ProductStockLog{}).AddForeignKey("product_stock_id", "product_stocks(id)", "CASCADE", "CASCADE")
 
 	// manual migrate
 	manualMigrate(db)
 
 	// add index
 	db.Model(&Product{}).AddIndex("idx_product_name", "name")
-	db.Model(&Product{}).AddIndex("idx_product_sku", "sku")
 	db.Model(&Sales{}).AddIndex("idx_sales_price", "price")
 	db.Model(&ProductColor{}).AddIndex("idx_product_color_color", "color")
 	db.Model(&ProductSize{}).AddIndex("idx_product_size_size", "size")
 	db.Model(&ProductStockLog{}).AddIndex("idx_product_stock_log_stock", "stock")
 	db.Model(&ProductStock{}).AddIndex("idx_product_stock_stock", "stock")
+	db.Model(&ProductStock{}).AddIndex("idx_product_stock_sku", "sku")
 
 	// add unique
 	db.Model(&User{}).AddUniqueIndex("idx_username_", "username")
 	db.Model(&Product{}).AddUniqueIndex("idx_product_name_deleted_", "name", "is_deleted")
-	db.Model(&Product{}).AddUniqueIndex("idx_product_sku_deleted_", "sku", "is_deleted")
 	db.Model(&Product{}).AddUniqueIndex("idx_product_uri_deleted_", "uri", "is_deleted")
+	db.Model(&ProductStock{}).AddUniqueIndex("idx_product_stock_sku_", "sku")
+	db.Model(&ProductSize{}).AddUniqueIndex("idx_product_size_sku_", "sku")
+	db.Model(&ProductColor{}).AddUniqueIndex("idx_product_color_pid_sizeid_color_", "product_id", "product_size_id", "color")
+	db.Model(&ProductColor{}).AddUniqueIndex("idx_product_color_sku", "sku")
 
 	fmt.Println("=== Auto Migration has beed processed ===")
 }
