@@ -11,6 +11,7 @@ type ProductStockLog struct {
 	ProductStock   Product `gorm:"foreignkey:ProductStockID"`
 	ProductStockID uint    `sql:"not null"`
 	Stock          uint16  `sql:"not null"`
+	Flag           uint8   `gorm:"default:0" sql:"not null"`
 	Created        User    `gorm:"foreignkey:CreatedBy"`
 	CreatedBy      uint    `sql:"not null"`
 	Updated        User    `gorm:"foreignkey:UpdatedBy"`
