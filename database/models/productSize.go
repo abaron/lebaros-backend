@@ -10,6 +10,7 @@ type ProductSize struct {
 	gorm.Model
 	Product   Product `gorm:"foreignkey:ProductID"`
 	ProductID uint    `sql:"not null"`
+	Sku       string  `gorm:"size:20" sql:"not null"`
 	Size      string  `gorm:"size:16"`
 	Created   User    `gorm:"foreignkey:CreatedBy"`
 	CreatedBy uint    `sql:"not null"`
@@ -24,6 +25,7 @@ func (p ProductSize) Serialize() common.JSON {
 	return common.JSON{
 		"id":         p.ID,
 		"product_id": p.ProductID,
+		"sku":        p.Sku,
 		"size":       p.Size,
 		"created_at": p.CreatedAt,
 		"created_by": p.CreatedAt,
