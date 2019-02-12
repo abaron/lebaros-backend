@@ -1,0 +1,255 @@
+{
+	"info": {
+		"_postman_id": "4c1443d2-4170-40d8-9c28-4e58f6bd9351",
+		"name": "Lebaros-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"fullname\": \"admin\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"admin\",\n\t\"password\": \"admin\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NTA0Mjk0NjksInVzZXIiOnsiZGlzcGxheV9uYW1lIjoiYWRtaW4iLCJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiJ9fQ.s0NDumihjcWskPGPKkFVxHHmMm9RORx1JKFYHvVpXEw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/auth/check",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"auth",
+								"check"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Import Exists",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/product/import-exists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"product",
+								"import-exists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stocks",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/product/stocks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"product",
+								"stocks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "In",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "2019-01-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "to",
+									"value": "2019-05-05 23:59:59",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/stock/in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"stock",
+								"in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Out",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "from",
+									"value": "2019-01-01 00:00:00",
+									"type": "text"
+								},
+								{
+									"key": "to",
+									"value": "2019-05-05 23:59:59",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8009/api/v1.0/stock/out",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8009",
+							"path": [
+								"api",
+								"v1.0",
+								"stock",
+								"out"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
